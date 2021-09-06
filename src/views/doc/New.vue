@@ -15,30 +15,28 @@
 
       <div>
         <el-form :model="docForm" ref="docForm" :rules="rules">
+
           <el-form-item label="标题" prop="title">
             <el-input v-model="docForm.title" placeholder = "标题"></el-input>
           </el-form-item>
+
           <el-form-item label="摘要" prop="summary">
             <el-input v-model="docForm.summary" placeholder = "摘要"
                       type="textarea" :row="2"></el-input>
           </el-form-item>
+
           <el-form-item label="分类" prop="category">
-            <el-select v-model="docForm.category" value-key="id"
-                       filterable
-                       placeholder="文章分类">
+            <el-select v-model="docForm.category" value-key="id" placeholder="文章分类">
               <el-option v-for="c in categories" :key="c.id" :label="c.name" :value="c"></el-option>
             </el-select>
           </el-form-item>
 
           <el-form-item label="标签" prop="tags">
-            <el-select v-model="docForm.tags"
-                       multiple filterable allow-create
-                       placeholder="文章标签">
-              <!--        <el-option v-for="item in options"-->
-              <!--                   :key="item.value" :label="item.label" :value="item.value">-->
-              <!--        </el-option>-->
+            <el-select v-model="docForm.tags" multiple value-key="id" placeholder="文章标签">
+              <el-option v-for="t in tags" :key="t.id" :label="t.name" :value="t"></el-option>
             </el-select>
           </el-form-item>
+
           <el-form-item label="正文" prop="content">
             <markdown-editor :editor="docForm.editor"></markdown-editor>
           </el-form-item>
@@ -54,6 +52,7 @@
   import MarkdownEditor from "@/components/markdown/MarkdownEditor";
   import {publishDoc} from "@/api/doc";
   import {getAllCategories} from "@/api/category";
+  import {getAllTags} from "@/api/tag";
 
   export default {
     name: "New",
@@ -170,10 +169,20 @@
             this.$message({type: 'error', message: '文章分类加载失败', showClose: true})
           }
         });
+      },
+      getAllTags() {
+        getAllTags().then(data => {
+          this.tags = data.data;
+        }).catch(error => {
+          if (error !== 'error') {
+            this.$message({type: 'error', message: '文章标签加载失败', showClose: true})
+          }
+        });
       }
     },
     mounted() {
       this.getAllCategories()
+      this.getAllTags()
     }
   }
 
