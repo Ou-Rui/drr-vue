@@ -33,9 +33,11 @@
             <el-button id="button_new_category" @click="newCategoryVisible=true">+</el-button>
           </el-form-item>
 
-
           <el-form-item label="标签" prop="tags">
-            <el-select v-model="docForm.tags" multiple value-key="id" placeholder="文章标签">
+            <el-select v-model="docForm.tags"
+                       placeholder="文章标签"
+                       multiple
+                       value-key="id">
               <el-option v-for="t in tags" :key="t.id" :label="t.name" :value="t"></el-option>
             </el-select>
             <el-button id="button_new_tag" @click="newTagVisible=true">+</el-button>
@@ -199,12 +201,15 @@
       onCloseCategoryDialog() {
         console.log("触发关闭分类对话框事件")
         this.newCategoryVisible = false;
+        this.getAllCategories()      // 更新Categories信息
       },
       onCloseTagDialog() {
         console.log("触发关闭标签对话框事件")
         this.newTagVisible = false;
+        this.getAllTags()      // 更新Tags信息
       },
     },
+    // 页面加载完毕时，读取现有的分类、标签信息
     mounted() {
       this.getAllCategories()
       this.getAllTags()

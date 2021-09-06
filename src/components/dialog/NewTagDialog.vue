@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="visible" title="新建分类">
+  <el-dialog :visible="visible" title="新建分类" :show-close="false">
 
     <el-form :model="tagForm" ref="tagForm" :rules="rules">
 
@@ -27,7 +27,10 @@ import {publishNewTag} from "@/api/tag";
 export default {
   name: "NewTagDialog",
   props: {
-    visible: Boolean
+    visible: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -49,7 +52,7 @@ export default {
     }
   },
   methods: {
-    // 取消，隐藏Dialog，清空Form
+    // 取消，清空form
     onCancel() {
       this.$emit('close-tag-dialog')
       this.tagForm.id = ''
@@ -71,6 +74,7 @@ export default {
           publishNewTag(newTag).then(() => {
             loading.close()
             this.$message({message: "发布成功"})
+            this.onCancel()
           }).catch((error) => {
             loading.close();
             if (error !== 'error') {

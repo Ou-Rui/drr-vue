@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="visible" title="新建分类">
+  <el-dialog :visible="visible" title="新建分类" :show-close="false">
 
     <el-form :model="categoryForm" ref="categoryForm" :rules="rules">
 
@@ -71,6 +71,7 @@ export default {
           publishNewCategory(newCategory).then(() => {
             loading.close()
             this.$message({message: "发布成功"})
+            this.onCancel()
           }).catch((error) => {
             loading.close();
             if (error !== 'error') {
