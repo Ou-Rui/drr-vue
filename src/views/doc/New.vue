@@ -2,13 +2,14 @@
     <el-main>
       <el-row>
         <el-col :span=4>
-          <el-button type="primary" @click="onPublish('docForm')">发布</el-button>
+          <el-button id="button_publish" type="primary"
+                     @click="onPublish('docForm')">发布</el-button>
         </el-col>
         <el-col :span=4>
-          <el-button>保存</el-button>
+          <el-button id="button_save">保存</el-button>
         </el-col>
         <el-col :span=4>
-          <el-button>取消</el-button>
+          <el-button id="button_cancel">取消</el-button>
         </el-col>
       </el-row>
 
@@ -17,11 +18,11 @@
         <el-form :model="docForm" ref="docForm" :rules="rules">
 
           <el-form-item label="标题" prop="title">
-            <el-input v-model="docForm.title" placeholder = "标题"></el-input>
+            <el-input v-model="docForm.title" placeholder="标题"></el-input>
           </el-form-item>
 
           <el-form-item label="摘要" prop="summary">
-            <el-input v-model="docForm.summary" placeholder = "摘要"
+            <el-input v-model="docForm.summary" placeholder="摘要"
                       type="textarea" :row="2"></el-input>
           </el-form-item>
 
@@ -29,12 +30,15 @@
             <el-select v-model="docForm.category" value-key="id" placeholder="文章分类">
               <el-option v-for="c in categories" :key="c.id" :label="c.name" :value="c"></el-option>
             </el-select>
+            <el-button id="button_new_category" @click="newCategoryVisible=true">+</el-button>
           </el-form-item>
+
 
           <el-form-item label="标签" prop="tags">
             <el-select v-model="docForm.tags" multiple value-key="id" placeholder="文章标签">
               <el-option v-for="t in tags" :key="t.id" :label="t.name" :value="t"></el-option>
             </el-select>
+            <el-button id="button_new_tag" @click="newTagVisible=true">+</el-button>
           </el-form-item>
 
           <el-form-item label="正文" prop="content">
@@ -44,13 +48,22 @@
         </el-form>
       </div>
 
+      <NewCategoryDialog :visible="newCategoryVisible"
+                         v-on:close-category-dialog="onCloseCategoryDialog()">
+      </NewCategoryDialog>
 
+      <NewTagDialog :visible="newTagVisible"
+                    v-on:close-tag-dialog="onCloseTagDialog()">
+      </NewTagDialog>
     </el-main>
 </template>
 
 <script>
   import MarkdownEditor from "@/components/markdown/MarkdownEditor";
-  import {publishDoc} from "@/api/doc";
+  import NewCategoryDialog from "@/components/dialog/NewCategoryDialog";
+  import NewTagDialog from "@/components/dialog/NewTagDialog";
+
+  import {publishNewDoc} from "@/api/doc";
   import {getAllCategories} from "@/api/category";
   import {getAllTags} from "@/api/tag";
 
@@ -118,10 +131,14 @@
             }}
           ]
         },
+        newCategoryVisible: false,
+        newTagVisible: false,
       }
     },
     components: {
-      MarkdownEditor
+      MarkdownEditor,
+      NewCategoryDialog,
+      NewTagDialog,
     },
     methods: {
       onPublish(docForm) {
@@ -145,7 +162,7 @@
               text: "发布中，请稍后..."
             })
 
-            publishDoc(newDoc).then(() => {
+            publishNewDoc(newDoc).then(() => {
               loading.close()
               this.$message({message: "发布成功"})
             }).catch((error) => {
@@ -178,7 +195,15 @@
             this.$message({type: 'error', message: '文章标签加载失败', showClose: true})
           }
         });
-      }
+      },
+      onCloseCategoryDialog() {
+        console.log("触发关闭分类对话框事件")
+        this.newCategoryVisible = false;
+      },
+      onCloseTagDialog() {
+        console.log("触发关闭标签对话框事件")
+        this.newTagVisible = false;
+      },
     },
     mounted() {
       this.getAllCategories()
