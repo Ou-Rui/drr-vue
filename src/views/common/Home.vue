@@ -10,26 +10,26 @@
 </template>
 
 <script>
-import BaseHeader from "@/components/common/BaseHeader";
+  import BaseHeader from "@/components/common/BaseHeader";
 
-export default {
-  name: "Home",
-  data() {
-    return {
-      currentActiveIndex: '/'
+  export default {
+    name: "Home",
+    data() {
+      return {
+        currentActiveIndex: '/'
+      }
+    },
+    components: {
+      BaseHeader
+    },
+    // beforeRouteEnter中不能用this访问组件对象，因为还没有创建
+    // 可以向next传入回调函数，在导航确认时，将以组件对象作为参数，执行该函数
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.currentActiveIndex = to.path;
+      })
     }
-  },
-  components: {
-    'base-header': BaseHeader
-  },
-  // beforeRouteEnter中不能用this访问组件对象，因为还没有创建
-  // 可以向next传入回调函数，在导航确认时，将以组件对象作为参数，执行该函数
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.currentActiveIndex = to.path;
-    })
   }
-}
 </script>
 
 <style scoped>

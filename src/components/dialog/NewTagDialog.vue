@@ -16,7 +16,11 @@
     <!--  el-dialog的具名组件footer  -->
     <div slot="footer">
       <el-button @click="onCancel()">取消</el-button>
-      <el-button type="primary" @click="onConfirm('tagForm')">确认</el-button>
+      <el-popconfirm title="确认提交？">
+        <el-button slot="reference" type="primary"
+                   @click="onConfirm('tagForm')">确认</el-button>
+      </el-popconfirm>
+
     </div>
   </el-dialog>
 </template>

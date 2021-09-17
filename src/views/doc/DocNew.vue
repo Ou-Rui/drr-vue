@@ -2,8 +2,10 @@
     <el-main>
       <el-row>
         <el-col :span=4>
-          <el-button id="button_publish" type="primary"
-                     @click="onPublish('docForm')">发布</el-button>
+          <el-popconfirm placement="bottom" title="确认发布？" >
+            <el-button slot="reference" id="button_publish" type="primary"
+                       @click="onPublish('docForm')">发布</el-button>
+          </el-popconfirm>
         </el-col>
         <el-col :span=4>
           <el-button id="button_save">保存</el-button>

@@ -2,8 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Home from '@/views/common/Home'
-import New from "@/views/doc/New";
-
+import DocNew from "@/views/doc/DocNew";
+import DocArchives from "@/views/doc/DocArchives";
+import DocView from "@/views/doc/DocView";
 
 
 Vue.use(Router)
@@ -16,7 +17,15 @@ const routes = [
     children: [
       {
         path: 'doc/new',
-        component : New
+        component : DocNew
+      },
+      {
+        path: 'doc/archives',
+        component: DocArchives
+      },
+      {
+        path: 'doc/view/:id',
+        component: DocView
       }
     ]
   }
