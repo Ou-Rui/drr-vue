@@ -10,13 +10,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-button id="button_search">搜索</el-button>
+          <el-button id="button_search" @click="onSearch('searchForm')">搜索</el-button>
         </el-col>
       </el-row>
 
 
       <el-row>
-        <el-col :span=4>
+        <el-col :span=6>
           <el-form-item label="分类" prop="category" class="category-form-item">
             <el-select v-model="searchForm.category" value-key="id" placeholder="文章分类">
               <el-option v-for="c in categories" :key="c.id" :label="c.name" :value="c"></el-option>
@@ -24,7 +24,7 @@
           </el-form-item>
         </el-col>
 
-        <el-col :span=4>
+        <el-col :span=6>
           <el-form-item label="标签" prop="tags" class="tags-form-item">
             <el-select v-model="searchForm.tags"
                        placeholder="文章标签"
@@ -45,9 +45,6 @@ import {getAllTags} from "@/api/tag";
 
 export default {
   name: "DocSearchBar",
-  components: {
-
-  },
   data() {
     return {
       categories: [
@@ -56,7 +53,7 @@ export default {
       tags: [
 
       ],
-      searchForm : {
+      searchForm: {
         title: '',
         category: '',
         tags: [],
@@ -96,6 +93,13 @@ export default {
         }
       });
     },
+    onSearch(searchForm) {
+      this.$refs[searchForm].validate((valid) => {
+        if (valid) {
+          this.$emit("search", this.searchForm)
+        }
+      })
+    }
   },
   // 页面加载完毕时，读取现有的分类、标签信息
   mounted() {

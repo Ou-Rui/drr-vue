@@ -24,36 +24,21 @@
         type: Number,
         default: 100
       },
-      filter: {       // 筛选条件，默认为空
-        type: Object,
-        default() {
-          return {
-
-          }
-        }
+      docs: {
+        type: Array,
+        default: []
       }
     },
     data() {
       return {
         loading: false,
         isEmpty: false,
-        docs: [
-        ],
       }
     },
     methods: {
-      load() {
-        getDocsByFilter(this.filter).then((data) => {
-          this.docs = data.data
-        }).catch((error) => {
-          if (error !== 'error') {
-            this.$message({message: error, type: 'error', showClose: true});
-          }
-        })
-      },
+
     },
     mounted() {
-      this.load()
     }
   }
 </script>

@@ -1,4 +1,5 @@
 import request from '@/request'
+import Qs from "qs"
 
 /**
  * 按照ID获取文章
@@ -25,9 +26,12 @@ export function getDocsByFilter(filter) {
     method: 'get',
     params: {
       categoryId: filter.categoryId,
-      tagId: filter.tagId,
+      tagIds: filter.tagIds,
       num: filter.num,
       offset: filter.offset,
+    },
+    paramsSerializer: function (params) {
+      return Qs.stringify(params, {arrayFormat: 'repeat'})
     }
   });
 }
