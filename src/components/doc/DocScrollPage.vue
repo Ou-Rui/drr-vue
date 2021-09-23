@@ -1,7 +1,7 @@
 <template>
   <scroll-page :loading="loading" :is-empty="isEmpty" :offset="offset"
                v-on:load="load()">
-    <doc-card v-for="doc in docs" :key="doc.id" v-bind="doc">
+    <doc-card v-for="doc in docs" :key="doc.id" :doc="doc">
     </doc-card>
   </scroll-page>
 </template>

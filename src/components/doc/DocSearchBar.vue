@@ -18,7 +18,8 @@
       <el-row>
         <el-col :span=6>
           <el-form-item label="分类" prop="category" class="category-form-item">
-            <el-select v-model="searchForm.category" value-key="id" placeholder="文章分类">
+            <el-select v-model="searchForm.category" value-key="id"
+                       placeholder="文章分类" clearable>
               <el-option v-for="c in categories" :key="c.id" :label="c.name" :value="c"></el-option>
             </el-select>
           </el-form-item>

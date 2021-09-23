@@ -11,7 +11,7 @@ export function getDocById(id) {
     url: '/doc/get',
     method: 'get',
     params: {
-      id:id
+      id: id
     }
   });
 }

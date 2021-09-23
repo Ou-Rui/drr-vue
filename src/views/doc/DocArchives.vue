@@ -36,6 +36,9 @@
         this.filter.tagIds = searchForm.tags.map((tag) => {
           return tag.id
         })
+        this.getDocsByFilter()
+      },
+      getDocsByFilter() {
         getDocsByFilter(this.filter).then((data) => {
           this.docs = data.data
         }).catch((error) => {
@@ -45,7 +48,9 @@
         })
       }
     },
-
+    mounted() {
+      this.getDocsByFilter()
+    }
   }
 </script>
 

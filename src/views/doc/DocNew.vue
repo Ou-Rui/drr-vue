@@ -2,9 +2,9 @@
     <el-main>
       <el-row>
         <el-col :span=4>
-          <el-popconfirm placement="bottom" title="确认发布？" >
+          <el-popconfirm placement="bottom" title="确认发布？" @confirm="onPublish('docForm')">
             <el-button slot="reference" id="button_publish" type="primary"
-                       @click="onPublish('docForm')">发布</el-button>
+                       @click="">发布</el-button>
           </el-popconfirm>
         </el-col>
         <el-col :span=4>
@@ -80,7 +80,7 @@
         docForm: {      // 文章表单
           title: '',
           summary: '',
-          category: '',
+          category: {},
           tags: [],
           editor: {         // markdown 编辑器对象
             value: '',      // 保存文章的内容
@@ -154,13 +154,13 @@
               title: this.docForm.title,
               summary: this.docForm.summary,
               categoryId: this.docForm.category.id,
-              tags: this.docForm.tags,
-              body: {
-                content: this.docForm.editor.value,
-                contentHtml: this.docForm.editor.ref.d_render
-              }
+              tags: [],
+              content: this.docForm.editor.value,
+              contentHtml: this.docForm.editor.ref.d_render
             }
-
+            newDoc.tags = this.docForm.tags.map((tag) => {
+              return {id: tag.id, name: tag.name};
+            })
             let loading = this.$loading({
               lock: true,
               text: "发布中，请稍后..."

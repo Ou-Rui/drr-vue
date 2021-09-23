@@ -1,17 +1,17 @@
 <template>
   <el-card>
     <div slot="header">
-      <a @click="docView(id)">{{title}}</a>
+      <a @click="docView(doc.id)">{{doc.title}}</a>
     </div>
 
     <div slot="body">
-      {{summary}}
+      {{doc.summary}}
     </div>
 
     <div>
-      <el-tag v-for="t in tagArray" :key="t" size="mini" type="success">{{t}}</el-tag>
+      <el-tag v-for="t in doc.tagItems" :key="t.id" size="mini" type="success">{{t.name}}</el-tag>
       <span class="me-pull-right me-article-count">
-	    	<i class="el-icon-time"></i>&nbsp;{{createTime}}
+	    	<i class="el-icon-time"></i>&nbsp;{{doc.createTime}}
 	    </span>
     </div>
   </el-card>
@@ -21,12 +21,7 @@
   export default {
     name: "DocItem",
     props: {
-      id: Number,
-      title: String,
-      summary: String,
-      category: String,
-      tags: String,
-      createTime: String,
+      doc: Object
     },
     data() {
       return {
@@ -34,9 +29,7 @@
       }
     },
     computed: {
-        tagArray: function () {
-          return this.tags.split(',')
-        }
+
     },
     methods: {
       // 跳转到文章页面
